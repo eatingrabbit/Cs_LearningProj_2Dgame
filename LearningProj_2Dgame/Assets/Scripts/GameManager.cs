@@ -28,23 +28,32 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        StartGame();
+        currentGameState = GameState.menu;
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("s"))
+        {
+            StartGame();
+        }
     }
 
     //called to start the game
-    void StartGame()
+    public void StartGame()
     {
+        PlayerController.instance.StartGame();
         SetGameState(GameState.inGame);
     }
 
     //called when player die
-    void GameOver()
+    public void GameOver()
     {
         SetGameState(GameState.gameOver);
     }
 
     //called when player decide to go back to the menu
-    void BackToMenu()
+    public void BackToMenu()
     {
         SetGameState(GameState.menu);
     }
@@ -61,7 +70,9 @@ public class GameManager : MonoBehaviour
         }
         else if (newGameState == GameState.gameOver)
         {
-            //setup Unity scen for gameOver state
+            //setup Unity scene for gameOver state
         }
+
+        currentGameState = newGameState;
     }
 }

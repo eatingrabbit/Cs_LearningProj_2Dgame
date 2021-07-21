@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     public float jumpForce = 6f;
-    private Rigidbody2D rigidBody;
     public Animator animator;
     public float runningSpeed = 1.5f;
+    
+    private Rigidbody2D rigidBody;
+    private Vector3 startingPosition;
 
     void Awake()
     {
+        instance = this;
+
         rigidBody = GetComponent<Rigidbody2D>();
+        startingPosition = this.transform.position;
+
     }
-    void Start()
+    public void StartGame()
     {
         animator.SetBool("isAlive", true);
+        this.transform.position = startingPosition;
+
+        //임의설정-다시시작 시 속도 초기화
+        rigidBody.velocity = new Vector2(runningSpeed, 0);
     }
     void Update()
     {
@@ -57,4 +69,9 @@ public class PlayerController : MonoBehaviour
         else { return false; }
     }
 
+    public void Kill()
+    {
+        GameManager.instance.GameOver();
+        animator.SetBool("isAlive", false);
+    }
 }
