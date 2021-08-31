@@ -73,5 +73,6 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.instance.GameOver();
         animator.SetBool("isAlive", false);
+        rigidBody.velocity = new Vector2(0.0f, 0.0f);
     }
 }

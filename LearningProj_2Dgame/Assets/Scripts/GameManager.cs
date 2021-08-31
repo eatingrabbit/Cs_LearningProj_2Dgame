@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentGameState = GameState.menu;
+        SetGameState(GameState.menu);
     }
 
     void Update()
@@ -39,9 +40,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public Canvas menuCanvas;
+    public Canvas inGameCanvas;
+    public Canvas gameOverCanvas;
+
     //called to start the game
     public void StartGame()
     {
+        LevelGenerator.instance.GenerateInitialPieces();
         PlayerController.instance.StartGame();
         SetGameState(GameState.inGame);
     }
@@ -63,16 +69,26 @@ public class GameManager : MonoBehaviour
         if (newGameState == GameState.menu)
         {
             //setup Unity scene for menu state
+            menuCanvas.enabled = true;
+            inGameCanvas.enabled = false;
+            gameOverCanvas.enabled = false;
         }
         else if (newGameState == GameState.inGame)
         {
             //setup Unity scene for inGame state
+            menuCanvas.enabled = false;
+            inGameCanvas.enabled = true;
+            gameOverCanvas.enabled = false;
         }
         else if (newGameState == GameState.gameOver)
         {
             //setup Unity scene for gameOver state
+            menuCanvas.enabled = false;
+            inGameCanvas.enabled = false;
+            gameOverCanvas.enabled = true;
         }
 
         currentGameState = newGameState;
     }
+    
 }

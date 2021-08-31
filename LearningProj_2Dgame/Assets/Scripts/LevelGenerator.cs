@@ -15,12 +15,17 @@ public class LevelGenerator : MonoBehaviour
 
     void Awake() { instance = this; }
 
-    void Start() { GenerateInitialPieces(); }
+    void Start() { for (int i = 0; i < 2; i++) { AddPiece(); } }
 
     //처음 시작시 LevelPiece 2개 생성
     public void GenerateInitialPieces()
     {
-        for(int i = 0; i < 2; i++) { AddPiece(); }
+        foreach (LevelPiece piece in pieces)
+        {
+            Destroy(piece.gameObject);
+        }
+        pieces.Clear();
+        for (int i = 0; i < 2; i++) { AddPiece(); }
     }
 
     //LevelPiece 조각들 생성-LeaveTrigger 스크립트에 의해 불림
