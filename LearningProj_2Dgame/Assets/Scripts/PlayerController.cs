@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
         //임의설정-다시시작 시 속도 초기화
         rigidBody.velocity = new Vector2(runningSpeed, 0);
+        
     }
     void Update()
     {
@@ -74,5 +75,20 @@ public class PlayerController : MonoBehaviour
         GameManager.instance.GameOver();
         animator.SetBool("isAlive", false);
         rigidBody.velocity = new Vector2(0.0f, 0.0f);
+
+        //PlayerPrefs.GetFloat("string key",default float Value)
+        //: 유니티가 string key로 기억한 float값을 불러오고, 만약 string key가 등록되지 않았다면 defaultValue를 불러옴.
+        if (PlayerPrefs.GetFloat("highscore", 0) < this.GetDistance())
+        {
+            //PlayerPrefs.SetFloat("string key", float Value): 유니티가 string key로 float value를 기억하도록 설정함.
+            PlayerPrefs.SetFloat("highscore", this.GetDistance());
+        }
+    }
+
+    //지금까지 달려온 거리 계산
+    public float GetDistance()
+    {
+        float traveledDistance = Vector2.Distance(new Vector2(startingPosition.x, 0), new Vector2(this.transform.position.x, 0));
+        return traveledDistance;
     }
 }

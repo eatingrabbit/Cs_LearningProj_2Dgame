@@ -32,21 +32,27 @@ public class GameManager : MonoBehaviour
         SetGameState(GameState.menu);
     }
 
-    void Update()
+    /*void Update()
     {
         if (Input.GetButtonDown("s"))
         {
             StartGame();
         }
     }
+    */
+
 
     public Canvas menuCanvas;
     public Canvas inGameCanvas;
     public Canvas gameOverCanvas;
 
+    public int collectedCoins = 0;
+
     //called to start the game
     public void StartGame()
     {
+        //임의설정-다시시작 시 코인 초기화
+        collectedCoins = 0;
         LevelGenerator.instance.GenerateInitialPieces();
         PlayerController.instance.StartGame();
         SetGameState(GameState.inGame);
@@ -55,6 +61,7 @@ public class GameManager : MonoBehaviour
     //called when player die
     public void GameOver()
     {
+        ViewGameOver.instance.ShowCoinsAndScore();
         SetGameState(GameState.gameOver);
     }
 
@@ -89,6 +96,11 @@ public class GameManager : MonoBehaviour
         }
 
         currentGameState = newGameState;
+    }
+
+    public void CollectedCoin()
+    {
+        collectedCoins ++;
     }
     
 }
